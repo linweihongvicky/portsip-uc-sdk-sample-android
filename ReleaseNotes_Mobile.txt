@@ -1,0 +1,8 @@
+PortSIP UC SDK v17
+=============================================
+Jul 1, 2020
+1. Audio & video engine upgrade.
+2. SIP Protocol stack upgrade.
+3. openssl upgrade to 1.1.1d.
+4. Windows Compatible with the audio Wave API.
+5. Fixed some minors bugs.

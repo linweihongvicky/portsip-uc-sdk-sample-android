@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/SIPSample/SIPSample.iml" filepath="$PROJECT_DIR$/SIPSample/SIPSample.iml" group="UCSample/SIPSample" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/UCSample.iml" filepath="$PROJECT_DIR$/.idea/modules/UCSample.iml" group="UCSample" />
+    </modules>
+  </component>
+</project>
