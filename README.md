@@ -39,7 +39,7 @@ Please send email to our <a href="mailto:support@portsip.com">Support team</a> i
 
 ## Installation Prerequisites
 
-To use PortSIP VoIP/IMS SDK for Android for development, SDK version with later than API-16 is required.
+To use PortSIP UC SDK for Android for development, SDK version with later than API-16 is required.
 
 ## Device Requirements
 
@@ -57,7 +57,8 @@ To use PortSIP VoIP/IMS SDK for Android for development, SDK version with later 
 
 All sample projects of the **free PortSIP UC SDK** can be found and downloaded at github:
   <br>
-```git clone https://github.com/portsip/portsip-uc-sdk-sample-ios.git
+```
+git clone https://github.com/portsip/portsip-uc-sdk-sample-ios.git
    git clone https://github.com/portsip/portsip-uc-sdk-sample-android.git
    git clone https://github.com/portsip/portsip-uc-sdk-sample-mac.git
    git clone https://github.com/portsip/portsip-uc-sdk-sample-win.git
@@ -78,20 +79,25 @@ All sample projects of the **free PortSIP UC SDK** can be found and downloaded a
   2. Android Studio and create a new Android Application Project
   3. Copy all files form libs directory under extracted directory to the libs directory of your new application.
   4. Import the dependent class form the SDK. For example:
+  ```
  			import com.portsip.OnPortSIPEvent;
 			import com.portsip.PortSipSdk;
-  5. Inherit the interface OnPortSIPEvent to process the callback events.
+			```
+  5. Inherit the interface ``` OnPortSIPEvent to process the callback events. ```
   6. Initialize SDK. For example:
+  ```
 			mPortSIPSDK = new PortSipSdk();
 			mPortSIPSDK.setOnPortSIPEvent(instanceofOnPortSIPEvent);
 			mPortSIPSDK.CreateCallManager(context);
 			mPortSIPSDK.initialize(...);
+```
+			
   For more details, please read the Sample project source code.
 
 
 ### 6. Is the SDK thread safe?
 Yes, the SDK is thread safe. You can call any of the API functions without the need to consider the multiple threads.
-Note: the SDK allows to call API functions in callback events directly - except for the "onAudioRawCallback", "onVideoRawCallback", "onReceivedRtpPacket", "onSendingRtpPacket" callbacks.
+Note: the SDK allows to call API functions in callback events directly - except for the ``` "onAudioRawCallback"```, ```"onVideoRawCallback"```, ```"onReceivedRtpPacket"```, ```"onSendingRtpPacket"``` callbacks.
 
 ### 7. Does the SDK support native 64-bit?
 Yes, both 32-bit and 64-bit are supported for SDK.
