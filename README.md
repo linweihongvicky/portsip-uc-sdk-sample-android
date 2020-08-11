@@ -11,7 +11,7 @@ These high performance SDKs provide unified API layers for full user control and
 ## Getting Started
 
 You can download PortSIP UC SDK Sample projects at our [Website](https://www.portsip.com/download-portsip-voip-sdk/).
- Samples include demos for VC++, C#, VB.NET, Delphi XE, XCode (for iOS and Mac OS), Eclipse (Java for Android) with the sample project source code provided (with SDK source code exclusive). The sample projects demonstrate how to create a powerful SIP application with our SDK easily and quickly.
+Samples include demos for VC++, C#, VB.NET, Delphi XE, XCode (for iOS and Mac OS), Eclipse (Java for Android) with the sample project source code provided (with SDK source code exclusive). The sample projects demonstrate how to create a powerful SIP application with our SDK easily and quickly.
 
 ## Contents
 
