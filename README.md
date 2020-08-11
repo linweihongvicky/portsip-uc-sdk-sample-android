@@ -39,12 +39,12 @@ Please send email to our <a href="mailto:support@portsip.com">Support team</a> i
 To use PortSIP VoIP/IMS SDK for Android for development, SDK version with later than API-16 is required.
 
 ## Frequently Asked Questions
-### 1. Does PortSIP UC SDK is free?
+### 1. Is PortSIP UC SDK free of charge?
 
-  Yes, the PortSIP UC SDK is totally free, but it was limited only works with <a href="https://www.portsip.com/portsip-pbx/" target="_blank">PortSIP PBX</a>.
+  Yes, the PortSIP UC SDK is totally free, but it iss limited to work with <a href="https://www.portsip.com/portsip-pbx/" target="_blank">PortSIP PBX</a> only.
 
 ### 2. What is the difference between PortSIP UC SDK and PortSIP VoIP SDK?
-  The <a href="https://www.portsip.com/portsip-uc-sdk/" target="_blank">PortSIP UC SDK</a> is free, but was limited to works with <a href="https://www.portsip.com/portsip-pbx/" target="_blank">PortSIP PBX</a>; The <a href="https://www.portsip.com/portsip-pbx/" target="_blank">PortSIP VoIP SDK</a> is not free that can works with any 3rd SIP based PBX. The UC SDK also have a lot of unique features than the VoIP SDK which provided by <a href="https://www.portsip.com/portsip-pbx/" target="_blank">PortSIP PBX</a>.
+  The <a href="https://www.portsip.com/portsip-uc-sdk/" target="_blank">PortSIP UC SDK</a> is free, but is limited to work with <a href="https://www.portsip.com/portsip-pbx/" target="_blank">PortSIP PBX</a> only; the <a href="https://www.portsip.com/portsip-pbx/" target="_blank">PortSIP VoIP SDK</a> is not free of charge and can work with any 3rd SIP based PBX. The UC SDK also provides a lot of unique features than the VoIP SDK which are provided by <a href="https://www.portsip.com/portsip-pbx/" target="_blank">PortSIP PBX</a>.
 
 ### 3. Where can I download the PortSIP UC SDK for test?
   All sample projects of the %PortSIP UC SDK can be found and downloaded at:
