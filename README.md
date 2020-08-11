@@ -58,7 +58,7 @@ To use PortSIP UC SDK for Android for development, SDK version with later than A
 All sample projects of the **free PortSIP UC SDK** can be found and downloaded at github:
   <br>
 ```
-git clone https://github.com/portsip/portsip-uc-sdk-sample-ios.git
+   git clone https://github.com/portsip/portsip-uc-sdk-sample-ios.git
    git clone https://github.com/portsip/portsip-uc-sdk-sample-android.git
    git clone https://github.com/portsip/portsip-uc-sdk-sample-mac.git
    git clone https://github.com/portsip/portsip-uc-sdk-sample-win.git
@@ -76,13 +76,13 @@ git clone https://github.com/portsip/portsip-uc-sdk-sample-ios.git
 ### 5. How can I create a new project with PortSIP VoIP SDK?
 
   1. Checkout the Sample project from github to a local directory.
-  2. Android Studio and create a new Android Application Project
-  3. Copy all files form libs directory under extracted directory to the libs directory of your new application.
+  2. Open Android Studio and create a new Android Application Project
+  3. Copy all files from libs directory under github directory to the libs directory of your new application.
   4. Import the dependent class form the SDK. For example:
   ```
  			import com.portsip.OnPortSIPEvent;
 			import com.portsip.PortSipSdk;
-			```
+```
   5. Inherit the interface ``` OnPortSIPEvent to process the callback events. ```
   6. Initialize SDK. For example:
   ```
