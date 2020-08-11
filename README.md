@@ -1,8 +1,11 @@
 # Welcome to PortSIP UC SDK For Android
 
-Create your SIP-based application for multiple platforms (iOS, Android, Windows, Mac OS and Linux) with our SDK.
+PortSIP UC SDK is a **free SIP SDK** which allows you to create your SIP-based application for multiple platforms (iOS, Android, Windows, macOS and Linux) base on it.
+**PortSIP UC SDK is free, but it was limited only work with** [PortSIP PBX](https://www.portsip.com/portsip-pbx)
 
-The rewarding PortSIP UC SDK is a powerful and versatile set of tools that dramatically accelerate SIP application development. It includes a suite of stacks, SDKs, and some Sample projects, with each of them enables developers to combine all the necessary components to create an ideal development environment for every application's specific needs.
+**If you are looking for a SIP SDK working with 3rd PBX or SIP server, please check our** [PortSIP VoIP SDK](https://github.com/portsip/portsip-voip-sdk-sample-for-android)
+
+The PortSIP UC SDK is a powerful and versatile set of tools that dramatically accelerate SIP application development. It includes a suite of stacks, SDKs, and some Sample projects, each of which enables developers to combine all the necessary components to create an ideal development environment for every application's specific needs.
 
 The PortSIP UC SDK complies with IETF and 3GPP standards, and is IMS-compliant (3GPP/3GPP2, TISPAN and PacketCable 2.0).
 These high performance SDKs provide unified API layers for full user control and flexibility.
@@ -10,8 +13,8 @@ These high performance SDKs provide unified API layers for full user control and
 
 ## Getting Started
 
-You can download PortSIP UC SDK Sample projects at our [Website](https://www.portsip.com/download-portsip-voip-sdk/).
-Samples include demos for VC++, C#, VB.NET, Delphi XE, XCode (for iOS and Mac OS), Eclipse (Java for Android) with the sample project source code provided (with SDK source code exclusive). The sample projects demonstrate how to create a powerful SIP application with our SDK easily and quickly.
+You can checkout our UC SDK with SIPsample project source code by performing below command:<br><br>
+```git clone https://github.com/portsip/portsip-uc-sdk-sample-android.git```
 
 ## Contents
 
@@ -28,7 +31,7 @@ Samples include demos for VC++, C#, VB.NET, Delphi XE, XCode (for iOS and Mac OS
 
 ## Website
 
-Some general interest or often changing PortSIP SDK information will be posted on the [PortSIP website](https://www.portsip.com) in real time. The release contains links to the site, so while browsing you may see occasional broken links  if you are not connected to the Internet. To be sure everything needed for using the PortSIP UC SDK has been contained within the release.
+Some general interest or often changing PortSIP SDK information will be posted on the [PortSIP website](https://www.portsip.com) in real time. The release contains links to the site, so while browsing you may see occasional broken links if you are not connected to the Internet. To be sure everything needed for using the PortSIP UC SDK has been contained within the release.
 
 ## Support
 
@@ -38,32 +41,44 @@ Please send email to our <a href="mailto:support@portsip.com">Support team</a> i
 
 To use PortSIP VoIP/IMS SDK for Android for development, SDK version with later than API-16 is required.
 
+## Device Requirements
+
+
 ## Frequently Asked Questions
 ### 1. Is PortSIP UC SDK free of charge?
 
-  Yes, the PortSIP UC SDK is totally free, but it iss limited to work with <a href="https://www.portsip.com/portsip-pbx/" target="_blank">PortSIP PBX</a> only.
+  Yes, the PortSIP UC SDK is totally free, but it is limited to work with <a href="https://www.portsip.com/portsip-pbx/" target="_blank">PortSIP PBX</a> only.
 
 ### 2. What is the difference between PortSIP UC SDK and PortSIP VoIP SDK?
+
   The <a href="https://www.portsip.com/portsip-uc-sdk/" target="_blank">PortSIP UC SDK</a> is free, but is limited to work with <a href="https://www.portsip.com/portsip-pbx/" target="_blank">PortSIP PBX</a> only; the <a href="https://www.portsip.com/portsip-pbx/" target="_blank">PortSIP VoIP SDK</a> is not free of charge and can work with any 3rd SIP based PBX. The UC SDK also provides a lot of unique features than the VoIP SDK which are provided by <a href="https://www.portsip.com/portsip-pbx/" target="_blank">PortSIP PBX</a>.
 
 ### 3. Where can I download the PortSIP UC SDK for test?
-  All sample projects of the %PortSIP UC SDK can be found and downloaded at:
-  <a href="https://www.portsip.com/download-portsip-uc-sdk/" target="_blank">https://www.portsip.com/download-portsip-uc-sdk/</a> <br />
+
+All sample projects of the **free PortSIP UC SDK** can be found and downloaded at github:
+  <br>
+```git clone https://github.com/portsip/portsip-uc-sdk-sample-ios.git
+   git clone https://github.com/portsip/portsip-uc-sdk-sample-android.git
+   git clone https://github.com/portsip/portsip-uc-sdk-sample-mac.git
+   git clone https://github.com/portsip/portsip-uc-sdk-sample-win.git
+   git clone https://github.com/portsip/portsip-uc-sdk-sample-for-xamarin.git
+```
+
 
 ### 4. How can I compile the sample project?
 
-  1. Download the sample project from PortSIP website.
-  2. Extract the .zip file.
-  3. Open the project by your Eclipse or Android studio:
-  4. Compile the sample project directly.  
+  1. Checkout the UC SDK and sample project from github.
+  2. Open the project by your IDE.
+  3. Compile the sample project directly.
 
 
 ### 5. How can I create a new project with PortSIP VoIP SDK?
-  1. Download the sample project and evaluation SDK and extract it to a specified directory
-  2. Run Android Studio and create a new Android Application Project
+
+  1. Checkout the Sample project from github to a local directory.
+  2. Android Studio and create a new Android Application Project
   3. Copy all files form libs directory under extracted directory to the libs directory of your new application.
   4. Import the dependent class form the SDK. For example:
-			import com.portsip.OnPortSIPEvent;
+ 			import com.portsip.OnPortSIPEvent;
 			import com.portsip.PortSipSdk;
   5. Inherit the interface OnPortSIPEvent to process the callback events.
   6. Initialize SDK. For example:
@@ -71,9 +86,15 @@ To use PortSIP VoIP/IMS SDK for Android for development, SDK version with later 
 			mPortSIPSDK.setOnPortSIPEvent(instanceofOnPortSIPEvent);
 			mPortSIPSDK.CreateCallManager(context);
 			mPortSIPSDK.initialize(...);
-  For more details please refer to the Sample project source code.
+  For more details, please read the Sample project source code.
 
 
 ### 6. Is the SDK thread safe?
-    Yes, the SDK is thread safe. You can call any of the API functions without the need to consider the multiple threads.
+Yes, the SDK is thread safe. You can call any of the API functions without the need to consider the multiple threads.
 Note: the SDK allows to call API functions in callback events directly - except for the "onAudioRawCallback", "onVideoRawCallback", "onReceivedRtpPacket", "onSendingRtpPacket" callbacks.
+
+### 7. Does the SDK support native 64-bit?
+Yes, both 32-bit and 64-bit are supported for SDK.
+
+### 8. Does the SDK support VoIP PUSH?
+Yes, please refer to <a href="https://www.portsip.com/knowledge-base/" target="_blank">https://www.portsip.com/knowledge-base/</a> for more details.
