@@ -161,13 +161,15 @@ public class LoginFragment extends BaseFragment implements AdapterView.OnItemSel
                 SaveUserInfo();
                 Intent onLineIntent = new Intent(getActivity(), PortSipService.class);
                 onLineIntent.setAction(PortSipService.ACTION_SIP_REGIEST);
-                startSipService(onLineIntent);
+
+                PortSipService.startServiceCompatibility(getActivity(),onLineIntent);
                 mtxStatus.setText("RegisterServer..");
                 break;
             case R.id.btoffline:
                 Intent offLineIntent = new Intent(getActivity(), PortSipService.class);
                 offLineIntent.setAction(PortSipService.ACTION_SIP_UNREGIEST);
-                startSipService(offLineIntent);
+
+                PortSipService.startServiceCompatibility(getActivity(),offLineIntent);
                 mtxStatus.setText("unRegisterServer");
                 break;
         }
@@ -187,19 +189,13 @@ public class LoginFragment extends BaseFragment implements AdapterView.OnItemSel
                     editor.putInt(PortSipService.TRANS, position).commit();
                     Intent setTransIntent = new Intent(getActivity(), PortSipService.class);
                     setTransIntent.setAction(PortSipService.ACTION_SIP_REINIT);
-                    startSipService(setTransIntent);
+
+                    PortSipService.startServiceCompatibility(getActivity(),setTransIntent);
                 }
                 break;
         }
     }
 
-    private void startSipService(Intent intent){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            getActivity().startForegroundService(intent);
-        }else{
-            getActivity().startService(intent);
-        }
-    }
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 

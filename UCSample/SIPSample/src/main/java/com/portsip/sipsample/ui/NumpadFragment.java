@@ -5,6 +5,7 @@ import com.portsip.PortSipSdk;
 import com.portsip.R;
 import com.portsip.sipsample.receiver.PortMessageReceiver;
 import com.portsip.sipsample.service.PortSipService;
+import com.portsip.sipsample.adapter.AudioDeviceAdapter;
 import com.portsip.sipsample.util.CallManager;
 import com.portsip.sipsample.util.Ring;
 import com.portsip.sipsample.util.Session;
@@ -33,11 +34,11 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
         CompoundButton.OnCheckedChangeListener ,PortMessageReceiver.BroadcastListener{
     private EditText etSipNum;
     private TextView mtips;
-    private Spinner spline;
+    private Spinner spline,spAudioDevice;
     CheckBox cbSendVideo, cbRecvVideo, cbConference, cbSendSdp;
     MyApplication application;
     MainActivity activity;
-
+    AudioDeviceAdapter audioDeviceAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
@@ -66,6 +67,12 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
         spline.setSelection(CallManager.Instance().CurrentLine);
         spline.setOnItemSelectedListener(this);
 
+        spAudioDevice =  view.findViewById(R.id.sp_audioDevice);
+
+        audioDeviceAdapter= new AudioDeviceAdapter(getActivity());
+        spAudioDevice.setOnItemSelectedListener(this);
+        spAudioDevice.setAdapter(audioDeviceAdapter);
+
         view.findViewById(R.id.dial).setOnClickListener(this);
         view.findViewById(R.id.pad).setOnClickListener(this);
         view.findViewById(R.id.delete).setOnClickListener(this);
@@ -84,6 +91,11 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
             long sessionId = intent.getLongExtra(PortSipService.EXTRA_CALL_SEESIONID, Session.INVALID_SESSION_ID);
             String status = intent.getStringExtra(PortSipService.EXTRA_CALL_DESCRIPTION);
             showTips(status);
+        }else if(PortSipService.ACTION_SIP_AUDIODEVICE.equals(action)){
+            spAudioDevice.setOnItemSelectedListener(null);
+            spAudioDevice.setSelection(audioDeviceAdapter.getCurrentDevice());
+            spAudioDevice.setOnItemSelectedListener(NumpadFragment.this);
+            audioDeviceAdapter.notifyDataSetChanged();
         }
     }
 
@@ -120,12 +132,7 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
             mute.setText("UnMute");
         }
 
-        Button mic = getView().findViewById(R.id.mic);
-        if(CallManager.Instance().isSpeakerOn()){
-            mic.setText("SpeakOn");
-        }else {
-            mic.setText("SpeakOff");
-        }
+
     }
 
     private void SetTableItemClickListener(TableLayout table) {
@@ -134,7 +141,10 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
             TableRow tableRow = (TableRow) table.getChildAt(i);
             int line = tableRow.getChildCount();
             for (int index = 0; index < line; index++) {
-                tableRow.getChildAt(index).setOnClickListener(this);
+                View view = tableRow.getChildAt(index);
+                if(view instanceof Button) {
+                    view.setOnClickListener(this);
+                }
             }
         }
     }
@@ -463,14 +473,6 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
                 showTransferDialog();
             }
             break;
-
-            case R.id.mic:
-                if(CallManager.Instance().setSpeakerOn(portSipSdk,!CallManager.Instance().isSpeakerOn())){
-                    ((Button) view).setText("SpeakOn");
-                }else {
-                    ((Button) view).setText("SpeakOff");
-                }
-                break;
             case R.id.mute: {
 
                 if (currentLine.bMute) {
@@ -491,6 +493,8 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        switch (adapterView.getId()){
+            case R.id.sp_lines:
         if (CallManager.Instance().CurrentLine == position) {
             ShowCurrentLineState();
             return;
@@ -519,7 +523,14 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
                 application.mEngine.unHold(currentLine.sessionID);
                 currentLine.bHold = false;
                 showTips(currentLine.lineName + ": UnHold - call established");
+                }
             }
+            break;
+            case R.id.sp_audioDevice:
+                Object device = view.getTag();
+                application.mEngine.setAudioDevice((PortSipEnumDefine.AudioDevice) device);
+                break;
+
         }
     }
 

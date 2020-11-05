@@ -26,7 +26,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             {
                 Intent srvIntent = new Intent(this, PortSipService.class);
                 srvIntent.setAction(ACTION_PUSH_MESSAGE);
-                startService(srvIntent);
+                PortSipService.startServiceCompatibility(this,srvIntent);
             }
             if ("im".equals(data.get("msg_type")))
             {
@@ -37,7 +37,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 String xpushid = data.get("x-push-id");//new version
                 Intent srvIntent = new Intent(this, PortSipService.class);
                 srvIntent.setAction(ACTION_PUSH_MESSAGE);
-                startService(srvIntent);
+                PortSipService.startServiceCompatibility(this,srvIntent);
             }
 
         }
@@ -62,6 +62,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Intent intent = new Intent(this,PortSipService.class);
         intent.setAction(PortSipService.ACTION_PUSH_TOKEN);
         intent.putExtra(PortSipService.EXTRA_PUSHTOKEN,token);
-        startService(intent);
+        PortSipService.startServiceCompatibility(this,intent);
     }
 }

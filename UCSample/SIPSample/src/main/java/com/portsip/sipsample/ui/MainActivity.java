@@ -39,6 +39,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         filter.addAction(PortSipService.REGISTER_CHANGE_ACTION);
         filter.addAction(PortSipService.CALL_CHANGE_ACTION);
         filter.addAction(PortSipService.PRESENCE_CHANGE_ACTION);
+        filter.addAction(PortSipService.ACTION_SIP_AUDIODEVICE);
         registerReceiver(receiver, filter);
         switchContent(R.id.login_fragment);
         RadioGroup menuGroup = findViewById(R.id.tab_menu);

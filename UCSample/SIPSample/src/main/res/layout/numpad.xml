@@ -243,12 +243,12 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="@string/str_hangup" />
-                    <Button
-                        android:id="@+id/mic"
+
+                    <Spinner
+                        android:id="@+id/sp_audioDevice"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="@string/str_speakon" />
+                        android:layout_weight="1" />
                 </TableRow>
             </TableLayout>
         </FrameLayout>
