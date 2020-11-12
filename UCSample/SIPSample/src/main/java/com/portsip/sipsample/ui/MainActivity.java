@@ -112,6 +112,20 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         }
     }
 
+    //if you want app always keep run in background ,you need call this function to request ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS permission.
+    public void startPowerSavePermissions(Activity activityContext){
+        String packageName = activityContext.getPackageName();
+        PowerManager pm = (PowerManager) activityContext.getSystemService(Context.POWER_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&!pm.isIgnoringBatteryOptimizations(packageName)){
+
+            Intent intent = new Intent();
+            intent.setAction(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+            intent.setData(Uri.parse("package:" + packageName));
+
+            activityContext.startActivity(intent);
+        }
+    }
+
     public void requestPermissions(Activity activity) {
         // Check if we have write permission
         if(	PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
