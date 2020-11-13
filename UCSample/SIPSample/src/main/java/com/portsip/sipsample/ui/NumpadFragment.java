@@ -527,8 +527,10 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
             }
             break;
             case R.id.sp_audioDevice:
-                Object device = view.getTag();
-                application.mEngine.setAudioDevice((PortSipEnumDefine.AudioDevice) device);
+                if(view!=null){
+                    Object device = view.getTag();
+                    application.mEngine.setAudioDevice((PortSipEnumDefine.AudioDevice) device);
+                }
                 break;
 
         }
