@@ -65,7 +65,7 @@ public class VideoFragment extends BaseFragment implements View.OnClickListener 
 		PortSipSdk portSipLib = application.mEngine;
 		if(localRenderScreen!=null){
 			if(portSipLib!=null) {
-				portSipLib.displayLocalVideo(false,false);
+				portSipLib.displayLocalVideo(false,false,null);
 			}
 			localRenderScreen.release();
 		}
@@ -143,8 +143,7 @@ public class VideoFragment extends BaseFragment implements View.OnClickListener 
 	{
 		Session cur = CallManager.Instance().getCurrentSession();
 		if(portSipLib!=null) {
-			portSipLib.displayLocalVideo(false,false);
-			portSipLib.setLocalVideoWindow(null);
+			portSipLib.displayLocalVideo(false,false,null);
 			CallManager.Instance().setRemoteVideoWindow(portSipLib,cur.sessionID,null);
 			CallManager.Instance().setConferenceVideoWindow(portSipLib,null);
 		}
@@ -164,13 +163,11 @@ public class VideoFragment extends BaseFragment implements View.OnClickListener 
 
 				callManager.setRemoteVideoWindow(portSipLib,cur.sessionID, remoteRenderScreen);
 
-				portSipLib.setLocalVideoWindow(localRenderScreen);
-				portSipLib.displayLocalVideo(true, true); // display Local video
+				portSipLib.displayLocalVideo(true, true, localRenderScreen); // display Local video
 				portSipLib.sendVideo(cur.sessionID, true);
 			} else {
-				portSipLib.displayLocalVideo(false,false);
+				portSipLib.displayLocalVideo(false,false, null);
 				callManager.setRemoteVideoWindow(portSipLib,cur.sessionID, null);
-				portSipLib.setLocalVideoWindow(null);
 			}
 		}
 	}

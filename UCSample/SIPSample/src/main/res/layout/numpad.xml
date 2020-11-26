@@ -244,11 +244,12 @@
                         android:layout_weight="1"
                         android:text="@string/str_hangup" />
 
-                    <Spinner
-                        android:id="@+id/sp_audioDevice"
+                    <Button
+                        android:id="@+id/audio_device"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:text="@string/str_speakon"/>
                 </TableRow>
             </TableLayout>
         </FrameLayout>

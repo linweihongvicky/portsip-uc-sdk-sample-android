@@ -3,9 +3,9 @@ package com.portsip.sipsample.ui;
 import com.portsip.PortSipEnumDefine;
 import com.portsip.PortSipSdk;
 import com.portsip.R;
+import com.portsip.sipsample.adapter.AudioDeviceAdapter;
 import com.portsip.sipsample.receiver.PortMessageReceiver;
 import com.portsip.sipsample.service.PortSipService;
-import com.portsip.sipsample.adapter.AudioDeviceAdapter;
 import com.portsip.sipsample.util.CallManager;
 import com.portsip.sipsample.util.Ring;
 import com.portsip.sipsample.util.Session;
@@ -34,11 +34,17 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
         CompoundButton.OnCheckedChangeListener ,PortMessageReceiver.BroadcastListener{
     private EditText etSipNum;
     private TextView mtips;
-    private Spinner spline,spAudioDevice;
+    private Spinner spline;
     CheckBox cbSendVideo, cbRecvVideo, cbConference, cbSendSdp;
     MyApplication application;
     MainActivity activity;
-    AudioDeviceAdapter audioDeviceAdapter;
+        AudioDeviceAdapter audioDeviceAdapter;
+
+        final PortSipEnumDefine.AudioDevice[] audioDevices = new PortSipEnumDefine.AudioDevice[]{PortSipEnumDefine.AudioDevice.EARPIECE
+                , PortSipEnumDefine.AudioDevice.SPEAKER_PHONE
+                , PortSipEnumDefine.AudioDevice.BLUETOOTH,
+                PortSipEnumDefine.AudioDevice.WIRED_HEADSET};
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
@@ -65,13 +71,8 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
         ArrayAdapter spinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.lines, android.R.layout.simple_list_item_1);
         spline.setAdapter(spinnerAdapter);
         spline.setSelection(CallManager.Instance().CurrentLine);
-        spline.setOnItemSelectedListener(this);
 
-        spAudioDevice =  view.findViewById(R.id.sp_audioDevice);
-
-        audioDeviceAdapter= new AudioDeviceAdapter(getActivity());
-        spAudioDevice.setOnItemSelectedListener(this);
-        spAudioDevice.setAdapter(audioDeviceAdapter);
+        audioDeviceAdapter = new AudioDeviceAdapter(audioDevices);
 
         view.findViewById(R.id.dial).setOnClickListener(this);
         view.findViewById(R.id.pad).setOnClickListener(this);
@@ -88,15 +89,15 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
     public void onBroadcastReceiver(Intent intent) {
         String action = intent == null ? "" : intent.getAction();
         if (PortSipService.CALL_CHANGE_ACTION.equals(action)) {
-            long sessionId = intent.getLongExtra(PortSipService.EXTRA_CALL_SEESIONID, Session.INVALID_SESSION_ID);
-            String status = intent.getStringExtra(PortSipService.EXTRA_CALL_DESCRIPTION);
-            showTips(status);
-        }else if(PortSipService.ACTION_SIP_AUDIODEVICE.equals(action)){
-            spAudioDevice.setOnItemSelectedListener(null);
-            spAudioDevice.setSelection(audioDeviceAdapter.getCurrentDevice());
-            spAudioDevice.setOnItemSelectedListener(NumpadFragment.this);
-            audioDeviceAdapter.notifyDataSetChanged();
-        }
+            	long sessionId = intent.getLongExtra(PortSipService.EXTRA_CALL_SEESIONID, Session.INVALID_SESSION_ID);
+            	String status = intent.getStringExtra(PortSipService.EXTRA_CALL_DESCRIPTION);
+            	showTips(status);
+            }else if(PortSipService.ACTION_SIP_AUDIODEVICE.equals(action)){
+                PortSipEnumDefine.AudioDevice device = CallManager.Instance().getCurrentAudioDevice();
+                audioDeviceAdapter.setSelectalbeAudioDevice(CallManager.Instance().getSelectalbeAudioDevice());
+                audioDeviceAdapter.notifyDataSetChanged();
+                ((Button)getView().findViewById(R.id.audio_device)).setText(device.toString());
+            }
     }
 
     @Override
@@ -105,6 +106,7 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
         if (!hidden) {
             ShowCurrentLineState();
             activity.receiver.broadcastReceiver = this;
+            audioDeviceAdapter.setSelectalbeAudioDevice(CallManager.Instance().getSelectalbeAudioDevice());
         }
     }
 
@@ -131,8 +133,6 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
         } else {
             mute.setText("UnMute");
         }
-
-
     }
 
     private void SetTableItemClickListener(TableLayout table) {
@@ -141,10 +141,7 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
             TableRow tableRow = (TableRow) table.getChildAt(i);
             int line = tableRow.getChildCount();
             for (int index = 0; index < line; index++) {
-                View view = tableRow.getChildAt(index);
-                if(view instanceof Button) {
-                    view.setOnClickListener(this);
-                }
+                tableRow.getChildAt(index).setOnClickListener(this);
             }
         }
     }
@@ -472,8 +469,8 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
                 }
                 showTransferDialog();
             }
-            break;
-            case R.id.mute: {
+                break;
+                case R.id.mute: {
 
                 if (currentLine.bMute) {
                     portSipSdk.muteSession(currentLine.sessionID, false,
@@ -488,13 +485,23 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
                 }
             }
             break;
+                case R.id.audio_device: {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setCancelable(true);
+
+                    builder.setAdapter(audioDeviceAdapter, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    CallManager.Instance().setAudiodevice(portSipSdk,audioDevices[which]);
+                                }
+                            }).create().show();
+                }
+                break;
+            }
         }
-    }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-        switch (adapterView.getId()){
-            case R.id.sp_lines:
         if (CallManager.Instance().CurrentLine == position) {
             ShowCurrentLineState();
             return;
@@ -523,16 +530,7 @@ public class NumpadFragment extends BaseFragment implements AdapterView.OnItemSe
                 application.mEngine.unHold(currentLine.sessionID);
                 currentLine.bHold = false;
                 showTips(currentLine.lineName + ": UnHold - call established");
-                }
             }
-            break;
-            case R.id.sp_audioDevice:
-                if(view!=null){
-                    Object device = view.getTag();
-                    application.mEngine.setAudioDevice((PortSipEnumDefine.AudioDevice) device);
-                }
-                break;
-
         }
     }
 

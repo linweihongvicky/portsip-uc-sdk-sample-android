@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -12,8 +13,11 @@ import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import android.os.PowerManager;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -56,6 +60,20 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receiver);
+    }
+
+    //if you want app always keep run in background ,you need call this function to request ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS permission.
+    public void startPowerSavePermissions(Activity activityContext){
+        String packageName = activityContext.getPackageName();
+        PowerManager pm = (PowerManager) activityContext.getSystemService(Context.POWER_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&!pm.isIgnoringBatteryOptimizations(packageName)){
+
+            Intent intent = new Intent();
+            intent.setAction(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+            intent.setData(Uri.parse("package:" + packageName));
+
+            activityContext.startActivity(intent);
+        }
     }
 
     @Override
@@ -109,20 +127,6 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         fTransaction.hide(login_fragment).hide(numpad_fragment).hide(video_fragment).hide(setting_fragment).hide(message_fragment);
         if(fragment!=null){
             fTransaction.show( fragment).commit();
-        }
-    }
-
-    //if you want app always keep run in background ,you need call this function to request ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS permission.
-    public void startPowerSavePermissions(Activity activityContext){
-        String packageName = activityContext.getPackageName();
-        PowerManager pm = (PowerManager) activityContext.getSystemService(Context.POWER_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&!pm.isIgnoringBatteryOptimizations(packageName)){
-
-            Intent intent = new Intent();
-            intent.setAction(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-            intent.setData(Uri.parse("package:" + packageName));
-
-            activityContext.startActivity(intent);
         }
     }
 

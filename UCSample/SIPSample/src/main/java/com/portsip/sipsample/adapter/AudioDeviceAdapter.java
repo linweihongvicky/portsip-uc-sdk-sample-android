@@ -1,9 +1,12 @@
 package com.portsip.sipsample.adapter;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.portsip.PortSipEnumDefine;
@@ -16,85 +19,60 @@ import java.util.Set;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class AudioDeviceAdapter extends ArrayAdapter
+public class AudioDeviceAdapter extends BaseAdapter
 {
-    static List<PortSipEnumDefine.AudioDevice> audioDeviceList = new ArrayList(){
-        {add(PortSipEnumDefine.AudioDevice.EARPIECE);
-        add(PortSipEnumDefine.AudioDevice.SPEAKER_PHONE);
-        add(PortSipEnumDefine.AudioDevice.BLUETOOTH);
-        add(PortSipEnumDefine.AudioDevice.WIRED_HEADSET);}};
-    static List<PortSipEnumDefine.AudioDevice> audioDeviceAvailable = new ArrayList<>();
-    static int select =0;
+    PortSipEnumDefine.AudioDevice[] audioDeviceList;
 
-    public AudioDeviceAdapter(@NonNull Context context) {
-        super(context, R.layout.audio_device,audioDeviceList);
+    List<PortSipEnumDefine.AudioDevice> audioDeviceAvailable = new ArrayList<>();
+    public AudioDeviceAdapter(@NonNull PortSipEnumDefine.AudioDevice[] audioDeviceList){
+        this.audioDeviceList = audioDeviceList;
     }
 
-    public static int getCurrentDevice(){
-        return select;
-    }
-
-    public static void setSelectalbeAudioDevice(PortSipEnumDefine.AudioDevice current, Set<PortSipEnumDefine.AudioDevice> devices){
+    public void setSelectalbeAudioDevice(Set<PortSipEnumDefine.AudioDevice> devices){
         audioDeviceAvailable.clear();
         audioDeviceAvailable.addAll(devices);
-
-        select = audioDeviceList.indexOf(current);
     }
 
     @Override
-    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View view =  super.getDropDownView(position, convertView, parent);
-        PortSipEnumDefine.AudioDevice device =  (PortSipEnumDefine.AudioDevice)getItem(position);
-        boolean available = audioDeviceAvailable.contains(device);
-        switch (device){
-            case EARPIECE:
-                ((TextView)view).setText("EARPIECE");
-                break;
-            case SPEAKER_PHONE:
-                ((TextView)view).setText("SPEAKER_PHONE");
-                break;
-            case  BLUETOOTH:
-                ((TextView)view).setText("BLUETOOTH");
-                break;
-            case  WIRED_HEADSET:
-                ((TextView)view).setText("WIRED_HEADSET");
-                break;
+    public int getCount() {
+        return audioDeviceList.length;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return audioDeviceList[position];
+    }
+
+    @Override
+    public long getItemId(int position) {
+        Object object = getItem(position);
+        if(object!=null){
+            return ((PortSipEnumDefine.AudioDevice)object).ordinal();
         }
-
-        view.setClickable(!available);
-        if(available) {
-            view.setBackground(null);
-        }else{
-            view.setBackgroundColor(getContext().getResources().getColor(android.R.color.darker_gray));
-        }
-
-
-        return view;
+        return -1;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View view = super.getView(position, convertView, parent);
+        TextView textView;
+        if(convertView ==null) {
+            textView = (TextView)LayoutInflater.from(parent.getContext()).inflate(R.layout.audio_device, null);
+        }else{
+            textView = (TextView)convertView;
+        }
 
         PortSipEnumDefine.AudioDevice device =  (PortSipEnumDefine.AudioDevice)getItem(position);
-        switch (device){
-            case EARPIECE:
-                ((TextView)view).setText("EARPIECE");
-                break;
-            case SPEAKER_PHONE:
-                ((TextView)view).setText("SPEAKER_PHONE");
-                break;
-            case  BLUETOOTH:
-                ((TextView)view).setText("BLUETOOTH");
-                break;
-            case  WIRED_HEADSET:
-                ((TextView)view).setText("WIRED_HEADSET");
-                break;
+        textView.setText(device.toString());
+
+        if(audioDeviceAvailable.contains(device)) {
+            textView.setBackgroundColor(textView.getResources().getColor(android.R.color.white));
+        }else{
+            textView.setBackgroundColor(textView.getResources().getColor(android.R.color.darker_gray));
         }
-        view.setTag(device);
-        return view;
+        return textView;
     }
+
 }
 
 

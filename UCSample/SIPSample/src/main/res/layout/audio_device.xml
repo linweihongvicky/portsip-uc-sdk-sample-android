@@ -7,4 +7,5 @@
     android:paddingTop="15dp"
     android:paddingBottom="15dp"
     android:singleLine="true"
-    android:text="XamarinSipSample" />
+    android:textColor="@color/black"
+    android:text="" />

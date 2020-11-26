@@ -4,6 +4,11 @@ import com.portsip.PortSIPVideoRenderer;
 import com.portsip.PortSipEnumDefine;
 import com.portsip.PortSipSdk;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class CallManager
 {
 	public static final int MAX_LINES = 10;
@@ -14,20 +19,8 @@ public class CallManager
 	public boolean regist;
 	public boolean online;
 	public boolean speakerOn =false;
-
-	public boolean setSpeakerOn(PortSipSdk portSipSdk ,boolean speakerOn) {
-		this.speakerOn = speakerOn;
-		if(speakerOn) {
-			portSipSdk.setAudioDevice(PortSipEnumDefine.AudioDevice.SPEAKER_PHONE);
-		}else{
-			portSipSdk.setAudioDevice(PortSipEnumDefine.AudioDevice.EARPIECE);
-		}
-		return speakerOn;
-	}
-
-	public boolean isSpeakerOn() {
-		return speakerOn;
-	}
+	PortSipEnumDefine.AudioDevice currentAudioDevcie=PortSipEnumDefine.AudioDevice.NONE;
+	List<PortSipEnumDefine.AudioDevice> audioDeviceAvailable = new ArrayList<>();
 
 	public static CallManager Instance()
 	{
@@ -44,6 +37,29 @@ public class CallManager
 
 			return mInstance;
 	}
+
+	public void setSelectalbeAudioDevice(PortSipEnumDefine.AudioDevice current, Set<PortSipEnumDefine.AudioDevice> devices){
+		audioDeviceAvailable.clear();
+		audioDeviceAvailable.addAll(devices);
+
+		this.currentAudioDevcie = current;
+	}
+
+	public Set<PortSipEnumDefine.AudioDevice> getSelectalbeAudioDevice(){
+		HashSet seletable = new HashSet<PortSipEnumDefine.AudioDevice>();
+		seletable.addAll(audioDeviceAvailable);
+		return seletable;
+	}
+
+	public void setAudiodevice(PortSipSdk portSipSdk ,PortSipEnumDefine.AudioDevice audioDevice) {
+		currentAudioDevcie = audioDevice;
+		portSipSdk.setAudioDevice(currentAudioDevcie);
+	}
+
+	public PortSipEnumDefine.AudioDevice getCurrentAudioDevice(){
+		return this.currentAudioDevcie;
+	}
+
 	private CallManager()
 	{
 		CurrentLine = 0;

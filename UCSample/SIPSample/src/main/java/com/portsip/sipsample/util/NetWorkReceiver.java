@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class NetWorkReceiver extends BroadcastReceiver{
         private static NetWorkListener mListener;

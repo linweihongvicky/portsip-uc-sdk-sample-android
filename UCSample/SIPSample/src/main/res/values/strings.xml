@@ -175,7 +175,7 @@ without your confirmation.</string>
     <string name="MEDIA_H264">MEDIA_H264</string>
     <string name="MEDIA_VP8">MEDIA_VP8</string>
     <string name="MEDIA_VP9">MEDIA_VP9</string>
-
+    <string name="VIDEO_NACK">VIDEO_NACK</string>
 
     <string name="str_resolution_title">Select a resolution</string>
     <string name="str_resolution">Resolution</string>
